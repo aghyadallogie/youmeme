@@ -49,6 +49,14 @@ export default function App() {
     }));
   };
 
+  const handleClearText = () => {
+    setState((s) => ({
+      ...s,
+      layers: s.layers.filter((l) => l.kind !== 'text'),
+      selectedId: null,
+    }));
+  };
+
   const handleCopy = () => {
     copyElement(canvasRef.current);
   };
@@ -93,6 +101,7 @@ export default function App() {
     <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col">
       <Toolbar
         onAddText={handleAddText}
+        onClearText={handleClearText}
         onCopy={handleCopy}
         copyStatus={status}
         textStyle={state.textStyle}

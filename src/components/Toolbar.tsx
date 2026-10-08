@@ -2,6 +2,7 @@ import type { TextStyle } from '../lib/types';
 
 type Props = {
   onAddText: () => void;
+  onClearText: () => void
   onCopy: () => void;
   copyStatus: string;
   textStyle: TextStyle;
@@ -18,28 +19,35 @@ const FONT_OPTIONS = [
 export function Toolbar({
   onAddText,
   onCopy,
+  onClearText,
   copyStatus,
   textStyle,
   onUpdateStyle,
 }: Props) {
   return (
-    <div className="border-b border-neutral-800">
+    <div className="border-b border-neutral-800 p-4 px-6">
       <div className="flex gap-2 p-3">
         <button
           onClick={onAddText}
           className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
         >
-          + Text
+          Add Text
+        </button>
+        <button
+          onClick={onClearText}
+          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
+        >
+          Clear Texts
         </button>
         <button
           onClick={onCopy}
           className="px-3 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-sm font-medium"
         >
-          {copyStatus === 'copying' ? 'Copying…' : 'Copy to clipboard'}
+          {copyStatus === 'copying' ? 'Copying…' : 'Copy to Clipboard'}
         </button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-4 px-3 pb-3 text-sm">
+      <div className="flex flex-wrap items-center gap-4 text-sm">
         <label className="flex items-center gap-2">
           <span className="text-neutral-400">Font</span>
           <select
@@ -54,7 +62,6 @@ export function Toolbar({
             ))}
           </select>
         </label>
-
         <label className="flex items-center gap-2">
           <span className="text-neutral-400">Size</span>
           <input
