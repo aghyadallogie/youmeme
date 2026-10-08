@@ -34,4 +34,5 @@ export type EditorState = {
   canvasWidth: number;
   canvasHeight: number;
   textStyle: TextStyle;
+  imageScale: number;
 };

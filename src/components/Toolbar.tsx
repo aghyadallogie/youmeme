@@ -9,6 +9,8 @@ type Props = {
   textStyle: TextStyle;
   onUpdateStyle: (patch: Partial<TextStyle>) => void;
   onSetImageUrl: (src: string) => void;
+  onScaleImage: (factor: number) => void;
+  imageScale: number;
 };
 
 const FONT_OPTIONS = [
@@ -25,7 +27,9 @@ export function Toolbar({
   copyStatus,
   textStyle,
   onUpdateStyle,
-  onSetImageUrl
+  onSetImageUrl,
+  imageScale,
+  onScaleImage
 }: Props) {
 
   const [urlInput, setUrlInput] = useState('');
@@ -131,13 +135,28 @@ export function Toolbar({
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
           placeholder="Paste image URL…"
-          className="w-64 bg-neutral-800 rounded px-2 py-1 text-sm"
+          className="bg-neutral-800 rounded px-2 py-1 text-sm"
         />
         <button
           type="submit"
           className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
         >
           Set image
+        </button>
+
+        <button
+          onClick={() => onScaleImage(1 / 1.1)}
+          disabled={imageScale <= 0.5}
+          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          −
+        </button>
+        <button
+          onClick={() => onScaleImage(1.1)}
+          disabled={imageScale >= 2}
+          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          +
         </button>
       </form>
     </div>

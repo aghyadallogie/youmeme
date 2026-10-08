@@ -15,6 +15,7 @@ type Props = {
   onDeselect: () => void;
   onMove: (id: string, x: number, y: number) => void;
   onDelete: (id: string) => void;
+  scale: number;
 };
 
 export function TextLayerView({

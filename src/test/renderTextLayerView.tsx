@@ -28,6 +28,7 @@ export function renderTextLayerView({
     <TextLayerView
       layer={layer}
       isSelected={isSelected}
+      scale={1}
       textStyle={textStyle}
       {...handlers}
     />

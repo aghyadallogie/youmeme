@@ -28,9 +28,13 @@ const initialState: EditorState = {
   canvasWidth: 568,
   canvasHeight: 335,
   textStyle: DEFAULT_TEXT_STYLE,
+  imageScale: 1,
 };
 
+
 let textCounter = 0;
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 2;
 
 export default function App() {
   const [state, setState] = useState<EditorState>(initialState);
@@ -56,6 +60,16 @@ export default function App() {
         ),
       };
     });
+  };
+
+  const handleScaleImage = (factor: number) => {
+    setState((s) => ({
+      ...s,
+      imageScale: Math.min(
+        MAX_SCALE,
+        Math.max(MIN_SCALE, s.imageScale * factor)
+      ),
+    }));
   };
 
   const handleAddText = () => {
@@ -128,6 +142,8 @@ export default function App() {
         textStyle={state.textStyle}
         onUpdateStyle={handleUpdateStyle}
         onSetImageUrl={handleSetImageUrl}
+        onScaleImage={handleScaleImage}
+        imageScale={state.imageScale}
       />
       <div className="flex-1 flex items-center justify-center p-8">
         <EditorCanvas

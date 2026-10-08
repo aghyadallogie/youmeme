@@ -16,13 +16,13 @@ export const EditorCanvas = forwardRef<HTMLDivElement, Props>(
     { state, onSelect, onChangeText, onDeselect, onMove, onDelete },
     ref
   ) {
-    const { layers, canvasWidth, canvasHeight, textStyle } = state;
+    const { layers, canvasWidth, canvasHeight, textStyle, imageScale } = state;
     const imageLayer = layers.find((l) => l.kind === 'image');
     const textLayers = layers.filter((l) => l.kind === 'text');
 
     const wrapperStyle: CSSProperties = {
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth * imageScale,
+      height: canvasHeight * imageScale,
       position: 'relative',
       background: '#111',
       overflow: 'hidden',
@@ -52,20 +52,21 @@ export const EditorCanvas = forwardRef<HTMLDivElement, Props>(
         )}
 
         {textLayers.map((layer) =>
-          layer.kind === 'text' ? (
-            <TextLayerView
-              key={layer.id}
-              layer={layer}
-              textStyle={textStyle}
-              isSelected={state.selectedId === layer.id}
-              onSelect={onSelect}
-              onChange={onChangeText}
-              onDeselect={onDeselect}
-              onMove={onMove}
-              onDelete={onDelete}
-            />
-          ) : null
-        )}
+      layer.kind === 'text' ? (
+        <TextLayerView
+          key={layer.id}
+          layer={layer}
+          textStyle={textStyle}
+          scale={imageScale}
+          isSelected={state.selectedId === layer.id}
+          onSelect={onSelect}
+          onChange={onChangeText}
+          onDeselect={onDeselect}
+          onMove={onMove}
+          onDelete={onDelete}
+        />
+      ) : null
+    )}
       </div>
     );
   }
