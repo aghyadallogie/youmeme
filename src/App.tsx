@@ -37,6 +37,27 @@ export default function App() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { copyElement, status } = useCopyToClipboard();
 
+  const handleSetImageUrl = (src: string) => {
+    setState((s) => {
+      const hasImage = s.layers.some((l) => l.kind === 'image');
+      if (!hasImage) {
+        return {
+          ...s,
+          layers: [
+            { id: 'bg', kind: 'image', src, width: 0, height: 0, x: 0, y: 0 },
+            ...s.layers,
+          ],
+        };
+      }
+      return {
+        ...s,
+        layers: s.layers.map((l) =>
+          l.kind === 'image' ? { ...l, src } : l
+        ),
+      };
+    });
+  };
+
   const handleAddText = () => {
     const id = `text-${++textCounter}`;
     setState((s) => ({
@@ -106,6 +127,7 @@ export default function App() {
         copyStatus={status}
         textStyle={state.textStyle}
         onUpdateStyle={handleUpdateStyle}
+        onSetImageUrl={handleSetImageUrl}
       />
       <div className="flex-1 flex items-center justify-center p-8">
         <EditorCanvas

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { TextStyle } from '../lib/types';
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   copyStatus: string;
   textStyle: TextStyle;
   onUpdateStyle: (patch: Partial<TextStyle>) => void;
+  onSetImageUrl: (src: string) => void;
 };
 
 const FONT_OPTIONS = [
@@ -23,9 +25,21 @@ export function Toolbar({
   copyStatus,
   textStyle,
   onUpdateStyle,
+  onSetImageUrl
 }: Props) {
+
+  const [urlInput, setUrlInput] = useState('');
+
+  const handleUrlSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = urlInput.trim();
+    if (!trimmed) return;
+    onSetImageUrl(trimmed);
+    setUrlInput('');
+  };
+
   return (
-    <div className="border-b border-neutral-800 p-4 px-6">
+    <div className="flex flex-col items-center border-b border-neutral-800 p-4 px-6">
       <div className="flex gap-2 p-3">
         <button
           onClick={onAddText}
@@ -110,6 +124,22 @@ export function Toolbar({
           />
         </label>
       </div>
+
+      <form onSubmit={handleUrlSubmit} className="flex gap-2 mt-3">
+        <input
+          type="text"
+          value={urlInput}
+          onChange={(e) => setUrlInput(e.target.value)}
+          placeholder="Paste image URL…"
+          className="w-64 bg-neutral-800 rounded px-2 py-1 text-sm"
+        />
+        <button
+          type="submit"
+          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
+        >
+          Set image
+        </button>
+      </form>
     </div>
   );
 }
