@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { vi } from 'vitest';
 import { TextLayerView } from '../components/TextLayerView';
-import { makeTextLayer } from './factories';
+import { makeTextLayer, makeTextStyle } from './factories';
 import type { TextLayer } from '../lib/types';
 
 type Options = {
@@ -14,6 +14,7 @@ export function renderTextLayerView({
   isSelected = false,
 }: Options = {}) {
   const layer = makeTextLayer(layerOverrides);
+  const textStyle = makeTextStyle();
 
   const handlers = {
     onSelect: vi.fn(),
@@ -27,6 +28,7 @@ export function renderTextLayerView({
     <TextLayerView
       layer={layer}
       isSelected={isSelected}
+      textStyle={textStyle}
       {...handlers}
     />
   );
