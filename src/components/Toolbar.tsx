@@ -9,6 +9,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../components/ui/select';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../components/ui/carousel';
+import { TEMPLATES } from '../lib/templates';
 
 type Props = {
   onAddText: () => void;
@@ -51,7 +59,7 @@ export function Toolbar({
   };
 
   return (
-    <div className="flex flex-col bg-background items-center border-b border-border p-4 px-6 gap-4">
+    <div className="flex flex-col items-center gap-4 border-b border-border bg-background p-4 px-6">
       <div className="flex gap-2">
         <Button onClick={onAddText} variant="secondary">
           Add Text
@@ -59,7 +67,11 @@ export function Toolbar({
         <Button onClick={onClearText} variant="secondary">
           Clear Texts
         </Button>
-        <Button onClick={onCopy} variant="default" className="min-w-[10rem]">
+        <Button
+          onClick={onCopy}
+          variant="default"
+          className="min-w-[11rem]"
+        >
           {copyStatus === 'copying' ? 'Copying…' : 'Copy to Clipboard'}
         </Button>
       </div>
@@ -104,7 +116,7 @@ export function Toolbar({
             type="color"
             value={textStyle.color}
             onChange={(e) => onUpdateStyle({ color: e.target.value })}
-            className="w-8 h-8 rounded cursor-pointer border border-border"
+            className="h-8 w-8 cursor-pointer rounded border border-border"
           />
         </label>
 
@@ -114,7 +126,7 @@ export function Toolbar({
             type="color"
             value={textStyle.strokeColor}
             onChange={(e) => onUpdateStyle({ strokeColor: e.target.value })}
-            className="w-8 h-8 rounded cursor-pointer border border-border"
+            className="h-8 w-8 cursor-pointer rounded border border-border"
           />
         </label>
 
@@ -133,19 +145,19 @@ export function Toolbar({
         </label>
       </div>
 
-      <form onSubmit={handleUrlSubmit} className="flex gap-2 mt-1">
+      <form onSubmit={handleUrlSubmit} className="flex gap-2">
         <Input
           type="text"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          placeholder="Paste image URL"
+          placeholder="Paste image URL…"
         />
         <Button type="submit" variant="secondary">
           Set image
         </Button>
         <Button
           type="button"
-          variant="default"
+          variant="outline"
           size="icon"
           onClick={() => onScaleImage(1 / 1.1)}
           disabled={imageScale <= 0.5}
@@ -154,7 +166,7 @@ export function Toolbar({
         </Button>
         <Button
           type="button"
-          variant="default"
+          variant="outline"
           size="icon"
           onClick={() => onScaleImage(1.1)}
           disabled={imageScale >= 2}
@@ -162,6 +174,35 @@ export function Toolbar({
           +
         </Button>
       </form>
+
+      <div className="w-full max-w-3xl px-10">
+        <Carousel opts={{ align: 'start', dragFree: true }}>
+          <CarouselContent>
+            {TEMPLATES.map((template) => (
+              <CarouselItem
+                key={template.name}
+                className="basis-1/3 sm:basis-1/4 md:basis-1/5 lg:basis-1/6"
+              >
+                <button
+                  type="button"
+                  onClick={() => onSetImageUrl(template.src)}
+                  title={template.name}
+                  className="w-full overflow-hidden rounded border border-border transition hover:border-primary focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <img
+                    src={template.src}
+                    alt={template.name}
+                    className="h-16 w-full object-cover"
+                    draggable={false}
+                  />
+                </button>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </div>
   );
 }
