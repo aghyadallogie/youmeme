@@ -31,7 +31,6 @@ const initialState: EditorState = {
   imageScale: 1,
 };
 
-
 let textCounter = 0;
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 2;
@@ -78,7 +77,7 @@ export default function App() {
       ...s,
       layers: [
         ...s.layers,
-        { id, kind: 'text', text: 'TOP TEXT', x: 40, y: 20 },
+        { id, kind: 'text', text: 'NEW TEXT', x: 30, y: 20 },
       ],
       selectedId: id,
     }));
@@ -93,6 +92,7 @@ export default function App() {
   };
 
   const handleCopy = () => {
+    handleDeselect();
     copyElement(canvasRef.current);
   };
 
@@ -101,7 +101,13 @@ export default function App() {
   };
 
   const handleDeselect = () => {
-    setState((s) => ({ ...s, selectedId: null }));
+    setState((s) => ({
+      ...s,
+      selectedId: null,
+      layers: s.layers.filter(
+        (l) => !(l.kind === 'text' && l.text.trim() === '')
+      ),
+    }));
   };
 
   const handleChangeText = (id: string, text: string) => {
@@ -117,14 +123,6 @@ export default function App() {
     setState((s) => ({
       ...s,
       layers: s.layers.map((l) => (l.id === id ? { ...l, x, y } : l)),
-    }));
-  };
-
-  const handleDelete = (id: string) => {
-    setState((s) => ({
-      ...s,
-      layers: s.layers.filter((l) => l.id !== id),
-      selectedId: s.selectedId === id ? null : s.selectedId,
     }));
   };
 
@@ -153,7 +151,6 @@ export default function App() {
           onChangeText={handleChangeText}
           onDeselect={handleDeselect}
           onMove={handleMove}
-          onDelete={handleDelete}
         />
       </div>
     </div>

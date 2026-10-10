@@ -12,9 +12,7 @@ type Props = {
   isSelected: boolean;
   onSelect: (id: string) => void;
   onChange: (id: string, text: string) => void;
-  onDeselect: () => void;
   onMove: (id: string, x: number, y: number) => void;
-  onDelete: (id: string) => void;
   scale: number;
 };
 
@@ -24,9 +22,7 @@ export function TextLayerView({
   isSelected,
   onSelect,
   onChange,
-  onDeselect,
   onMove,
-  onDelete,
 }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dragOffsetRef = useRef<{ dx: number; dy: number } | null>(null);
@@ -97,10 +93,6 @@ export function TextLayerView({
           ref={textareaRef}
           value={layer.text}
           onChange={(e) => onChange(layer.id, e.target.value)}
-          onBlur={() => {
-            if (layer.text.trim() === '') onDelete(layer.id);
-            else onDeselect();
-          }}
           onKeyDown={(e) => {
             if (e.key === 'Escape') e.currentTarget.blur();
           }}
@@ -120,7 +112,7 @@ export function TextLayerView({
             minWidth: '1ch',
             width: `${Math.max(layer.text.length, 1)}ch`,
             height: '1.2em',
-            pointerEvents: 'auto',
+            pointerEvents: 'none',
           }}
         />
       )}
