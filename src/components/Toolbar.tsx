@@ -58,6 +58,10 @@ export function Toolbar({
     setUrlInput('');
   };
 
+  const handleChangeValue = (value) => {
+    if (value) onUpdateStyle({ fontFamily: value });
+  }
+
   return (
     <div className="flex flex-col items-center gap-4 border-b border-border bg-background p-4 px-6">
       <div className="flex gap-2">
@@ -81,14 +85,14 @@ export function Toolbar({
           <span className="text-muted-foreground">Font</span>
           <Select
             value={textStyle.fontFamily ?? 'Impact, sans-serif'}
-            onValueChange={(value) => onUpdateStyle({ fontFamily: value })}
+            onValueChange={handleChangeValue}
           >
             <SelectTrigger className="w-[160px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {FONT_OPTIONS.map((f) => (
-                <SelectItem key={f.value} value={f.value ?? undefined}>
+                <SelectItem key={f.value} value={f.value}>
                   {f.label}
                 </SelectItem>
               ))}
