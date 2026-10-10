@@ -68,7 +68,7 @@ export function Toolbar({
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Font</span>
           <Select
-            value={textStyle.fontFamily}
+            value={textStyle.fontFamily ?? undefined}
             onValueChange={(value) => onUpdateStyle({ fontFamily: value })}
           >
             <SelectTrigger className="w-[160px]">
