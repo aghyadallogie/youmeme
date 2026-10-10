@@ -88,7 +88,7 @@ export function Toolbar({
             </SelectTrigger>
             <SelectContent>
               {FONT_OPTIONS.map((f) => (
-                <SelectItem key={f.value} value={f.value}>
+                <SelectItem key={f.value} value={f.value ?? undefined}>
                   {f.label}
                 </SelectItem>
               ))}
