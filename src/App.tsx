@@ -131,7 +131,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col">
+    <main className="flex flex-col min-h-screen text-neutral-100 overflow-auto">
       <Toolbar
         onAddText={handleAddText}
         onClearText={handleClearText}
@@ -153,6 +153,6 @@ export default function App() {
           onMove={handleMove}
         />
       </div>
-    </div>
+    </main>
   );
 }

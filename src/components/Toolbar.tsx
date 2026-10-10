@@ -1,9 +1,18 @@
 import { useState } from 'react';
 import type { TextStyle } from '../lib/types';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 
 type Props = {
   onAddText: () => void;
-  onClearText: () => void
+  onClearText: () => void;
   onCopy: () => void;
   copyStatus: string;
   textStyle: TextStyle;
@@ -22,16 +31,15 @@ const FONT_OPTIONS = [
 
 export function Toolbar({
   onAddText,
-  onCopy,
   onClearText,
+  onCopy,
   copyStatus,
   textStyle,
   onUpdateStyle,
   onSetImageUrl,
+  onScaleImage,
   imageScale,
-  onScaleImage
 }: Props) {
-
   const [urlInput, setUrlInput] = useState('');
 
   const handleUrlSubmit = (e: React.FormEvent) => {
@@ -43,46 +51,42 @@ export function Toolbar({
   };
 
   return (
-    <div className="flex flex-col items-center border-b border-neutral-800 p-4 px-6">
-      <div className="flex gap-2 p-3">
-        <button
-          onClick={onAddText}
-          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
-        >
+    <div className="flex flex-col bg-background items-center border-b border-border p-4 px-6 gap-4">
+      <div className="flex gap-2">
+        <Button onClick={onAddText} variant="secondary">
           Add Text
-        </button>
-        <button
-          onClick={onClearText}
-          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
-        >
+        </Button>
+        <Button onClick={onClearText} variant="secondary">
           Clear Texts
-        </button>
-        <button
-          onClick={onCopy}
-          className="px-3 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-sm font-medium"
-        >
+        </Button>
+        <Button onClick={onCopy} variant="default" className="min-w-[10rem]">
           {copyStatus === 'copying' ? 'Copying…' : 'Copy to Clipboard'}
-        </button>
+        </Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-4 text-sm">
         <label className="flex items-center gap-2">
-          <span className="text-neutral-400">Font</span>
-          <select
+          <span className="text-muted-foreground">Font</span>
+          <Select
             value={textStyle.fontFamily}
-            onChange={(e) => onUpdateStyle({ fontFamily: e.target.value })}
-            className="bg-neutral-800 rounded px-2 py-1"
+            onValueChange={(value) => onUpdateStyle({ fontFamily: value })}
           >
-            {FONT_OPTIONS.map((f) => (
-              <option key={f.value} value={f.value}>
-                {f.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {FONT_OPTIONS.map((f) => (
+                <SelectItem key={f.value} value={f.value}>
+                  {f.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </label>
+
         <label className="flex items-center gap-2">
-          <span className="text-neutral-400">Size</span>
-          <input
+          <span className="text-muted-foreground">Size</span>
+          <Input
             type="number"
             min={8}
             max={200}
@@ -90,33 +94,33 @@ export function Toolbar({
             onChange={(e) =>
               onUpdateStyle({ fontSize: Number(e.target.value) || 8 })
             }
-            className="w-16 bg-neutral-800 rounded px-2 py-1"
+            className="w-16"
           />
         </label>
 
         <label className="flex items-center gap-2">
-          <span className="text-neutral-400">Text</span>
+          <span className="text-muted-foreground">Text</span>
           <input
             type="color"
             value={textStyle.color}
             onChange={(e) => onUpdateStyle({ color: e.target.value })}
-            className="w-8 h-8 bg-neutral-800 rounded cursor-pointer"
+            className="w-8 h-8 rounded cursor-pointer border border-border"
           />
         </label>
 
         <label className="flex items-center gap-2">
-          <span className="text-neutral-400">Stroke</span>
+          <span className="text-muted-foreground">Stroke</span>
           <input
             type="color"
             value={textStyle.strokeColor}
             onChange={(e) => onUpdateStyle({ strokeColor: e.target.value })}
-            className="w-8 h-8 bg-neutral-800 rounded cursor-pointer"
+            className="w-8 h-8 rounded cursor-pointer border border-border"
           />
         </label>
 
         <label className="flex items-center gap-2">
-          <span className="text-neutral-400">Stroke W</span>
-          <input
+          <span className="text-muted-foreground">Stroke W</span>
+          <Input
             type="number"
             min={0}
             max={20}
@@ -124,40 +128,39 @@ export function Toolbar({
             onChange={(e) =>
               onUpdateStyle({ strokeWidth: Number(e.target.value) || 0 })
             }
-            className="w-16 bg-neutral-800 rounded px-2 py-1"
+            className="w-16"
           />
         </label>
       </div>
 
-      <form onSubmit={handleUrlSubmit} className="flex gap-2 mt-3">
-        <input
+      <form onSubmit={handleUrlSubmit} className="flex gap-2 mt-1">
+        <Input
           type="text"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          placeholder="Paste image URL…"
-          className="bg-neutral-800 rounded px-2 py-1 text-sm"
+          placeholder="Paste image URL"
         />
-        <button
-          type="submit"
-          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm"
-        >
+        <Button type="submit" variant="secondary">
           Set image
-        </button>
-
-        <button
+        </Button>
+        <Button
+          type="button"
+          variant="default"
+          size="icon"
           onClick={() => onScaleImage(1 / 1.1)}
           disabled={imageScale <= 0.5}
-          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
         >
           −
-        </button>
-        <button
+        </Button>
+        <Button
+          type="button"
+          variant="default"
+          size="icon"
           onClick={() => onScaleImage(1.1)}
           disabled={imageScale >= 2}
-          className="px-3 py-1.5 rounded bg-neutral-800 hover:bg-neutral-700 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
         >
           +
-        </button>
+        </Button>
       </form>
     </div>
   );

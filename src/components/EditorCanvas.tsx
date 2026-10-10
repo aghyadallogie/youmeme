@@ -32,7 +32,7 @@ export const EditorCanvas = forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <div ref={ref} style={wrapperStyle} onMouseDown={handleBackgroundClick}>
+      <div className="rounded-lg border border-border bg-muted p-4 shadow-2xl" ref={ref} style={wrapperStyle} onMouseDown={handleBackgroundClick}>
         {imageLayer?.kind === 'image' && (
           <img
             src={imageLayer.src}
