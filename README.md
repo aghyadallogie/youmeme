@@ -32,3 +32,4 @@ A lightweight, browser-based meme editor. Pick a template (or upload an image), 
 
 ```bash
 npm install
+```

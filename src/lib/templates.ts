@@ -14,8 +14,8 @@ export type Template = {
 export const TEMPLATES: Template[] = [
   { name: 'woman cat faceoff', src: womanCatFaceoff },
   { name: 'distracted boyfriend', src: distractedBoyfriend },
-  { name: 'brand cap', src: brandCap},
-  { name: 'girl-destruction', src: girlDestruction},
-  { name: 'pepe-smoking', src: pepeSmoking},
-  { name: 'schmart', src: schmart},
+  { name: 'brand cap', src: brandCap },
+  { name: 'girl-destruction', src: girlDestruction },
+  { name: 'pepe-smoking', src: pepeSmoking },
+  { name: 'schmart', src: schmart },
 ];

@@ -60,7 +60,7 @@ export function Toolbar({
 
   const handleChangeValue = (value: string | null) => {
     if (value) onUpdateStyle({ fontFamily: value });
-  }
+  };
 
   return (
     <div className="flex flex-col items-center gap-4 border-b border-border bg-background p-4 px-6">
@@ -71,11 +71,7 @@ export function Toolbar({
         <Button onClick={onClearText} variant="secondary">
           Clear Texts
         </Button>
-        <Button
-          onClick={onCopy}
-          variant="default"
-          className="min-w-[11rem]"
-        >
+        <Button onClick={onCopy} variant="default" className="min-w-[11rem]">
           {copyStatus === 'copying' ? 'Copying…' : 'Copy to Clipboard'}
         </Button>
       </div>

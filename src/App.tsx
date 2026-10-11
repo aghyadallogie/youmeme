@@ -54,9 +54,7 @@ export default function App() {
       }
       return {
         ...s,
-        layers: s.layers.map((l) =>
-          l.kind === 'image' ? { ...l, src } : l
-        ),
+        layers: s.layers.map((l) => (l.kind === 'image' ? { ...l, src } : l)),
       };
     });
   };

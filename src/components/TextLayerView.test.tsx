@@ -3,10 +3,10 @@ import { renderTextLayerView } from '../test/renderTextLayerView';
 import { describe, expect, it } from 'vitest';
 
 describe('TextLayerView', () => {
-    it('renders the layer text', () => {
-        renderTextLayerView({ layer: { text: 'HELLO WORLD' } });
-        expect(screen.getByText('HELLO WORLD')).toBeInTheDocument();
-    });
+  it('renders the layer text', () => {
+    renderTextLayerView({ layer: { text: 'HELLO WORLD' } });
+    expect(screen.getByText('HELLO WORLD')).toBeInTheDocument();
+  });
 });
 
 it('does not render the textarea when not selected', () => {

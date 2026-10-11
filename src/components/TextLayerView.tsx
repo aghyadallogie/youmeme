@@ -73,7 +73,7 @@ export function TextLayerView({
     WebkitTouchCallout: 'none',
     touchAction: 'none',
     lineHeight: 1,
-    outline: isSelected ? '2px dashed red' : 'none'
+    outline: isSelected ? '2px dashed red' : 'none',
   };
 
   return (
