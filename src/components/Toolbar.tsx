@@ -58,7 +58,7 @@ export function Toolbar({
     setUrlInput('');
   };
 
-  const handleChangeValue = (value) => {
+  const handleChangeValue = (value: string | null) => {
     if (value) onUpdateStyle({ fontFamily: value });
   }
 
