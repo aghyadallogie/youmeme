@@ -8,23 +8,30 @@ type Props = {
   onChangeText: (id: string, text: string) => void;
   onDeselect: () => void;
   onMove: (id: string, x: number, y: number) => void;
+  onImageLoad: (width: number, height: number) => void;
 };
 
 export const EditorCanvas = forwardRef<HTMLDivElement, Props>(
   function EditorCanvas(
-    { state, onSelect, onChangeText, onDeselect, onMove },
+    { state, onSelect, onChangeText, onDeselect, onMove, onImageLoad },
     ref
   ) {
-    const { layers, canvasWidth, canvasHeight, textStyle, imageScale } = state;
+    const { layers, textStyle, imageScale } = state;
     const imageLayer = layers.find((l) => l.kind === 'image');
     const textLayers = layers.filter((l) => l.kind === 'text');
+    const aspectRatio =
+      imageLayer?.kind === 'image' ? imageLayer.aspectRatio : 1;
 
     const wrapperStyle: CSSProperties = {
-      width: canvasWidth * imageScale,
-      height: canvasHeight * imageScale,
+      aspectRatio: String(aspectRatio),
+      width: '100%',
+      maxWidth: '600px',
+      maxHeight: '600px',
       position: 'relative',
       background: '#111',
       overflow: 'hidden',
+      transform: `scale(${imageScale})`,
+      transformOrigin: 'center center',
     };
 
     const handleBackgroundClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -43,6 +50,10 @@ export const EditorCanvas = forwardRef<HTMLDivElement, Props>(
             src={imageLayer.src}
             alt=""
             crossOrigin="anonymous"
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              onImageLoad(img.naturalWidth, img.naturalHeight);
+            }}
             style={{
               position: 'absolute',
               inset: 0,

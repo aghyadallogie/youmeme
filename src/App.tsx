@@ -20,6 +20,7 @@ const initialState: EditorState = {
       src: 'https://i.imgflip.com/1bij.jpg',
       width: 568,
       height: 335,
+      aspectRatio: 568 / 335,
       x: 0,
       y: 0,
     },
@@ -31,7 +32,6 @@ const initialState: EditorState = {
   imageScale: 1,
 };
 
-let textCounter = 0;
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 2;
 
@@ -41,22 +41,21 @@ export default function App() {
   const { copyElement, status } = useCopyToClipboard();
 
   const handleSetImageUrl = (src: string) => {
-    setState((s) => {
-      const hasImage = s.layers.some((l) => l.kind === 'image');
-      if (!hasImage) {
-        return {
-          ...s,
-          layers: [
-            { id: 'bg', kind: 'image', src, width: 0, height: 0, x: 0, y: 0 },
-            ...s.layers,
-          ],
-        };
-      }
-      return {
-        ...s,
-        layers: s.layers.map((l) => (l.kind === 'image' ? { ...l, src } : l)),
-      };
-    });
+    setState((s) => ({
+      ...s,
+      layers: s.layers.map((l) => (l.kind === 'image' ? { ...l, src } : l)),
+    }));
+  };
+
+  const handleImageLoad = (width: number, height: number) => {
+    setState((s) => ({
+      ...s,
+      layers: s.layers.map((l) =>
+        l.kind === 'image'
+          ? { ...l, width, height, aspectRatio: width / height }
+          : l
+      ),
+    }));
   };
 
   const handleScaleImage = (factor: number) => {
@@ -70,7 +69,7 @@ export default function App() {
   };
 
   const handleAddText = () => {
-    const id = `text-${++textCounter}`;
+    const id = `text-${crypto.randomUUID()}`;
     setState((s) => ({
       ...s,
       layers: [
@@ -148,6 +147,7 @@ export default function App() {
           onSelect={handleSelect}
           onChangeText={handleChangeText}
           onDeselect={handleDeselect}
+          onImageLoad={handleImageLoad}
           onMove={handleMove}
         />
       </div>

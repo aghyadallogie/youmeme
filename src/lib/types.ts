@@ -19,6 +19,7 @@ export type ImageLayer = BaseLayer & {
   src: string;
   width: number;
   height: number;
+  aspectRatio: number;
 };
 
 export type TextLayer = BaseLayer & {
