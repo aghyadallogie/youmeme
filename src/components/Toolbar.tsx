@@ -63,7 +63,7 @@ export function Toolbar({
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 border-b border-border bg-background p-4 px-6">
+    <div className="flex flex-col items-center gap-4 border-b border-border bg-background p-4 px-6 z-9">
       <div className="flex gap-2">
         <Button onClick={onAddText} variant="secondary">
           Add Text

@@ -10,7 +10,13 @@ export function useCopyToClipboard() {
     if (!el) return;
     setStatus('copying');
     try {
-      const blob = await toBlob(el, { pixelRatio: 2 });
+      const blob = await toBlob(el, {
+        pixelRatio: 1,
+        style: {
+          transform: 'none',
+          transformOrigin: 'initial',
+        },
+      });
       if (!blob) throw new Error('Failed to render element');
 
       await navigator.clipboard.write([
