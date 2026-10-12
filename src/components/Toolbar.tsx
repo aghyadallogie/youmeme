@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from '../components/ui/carousel';
 import { TEMPLATES } from '../lib/templates';
+import { FONT_OPTIONS } from '../lib/constants';
 
 type Props = {
   onAddText: () => void;
@@ -29,13 +30,6 @@ type Props = {
   onScaleImage: (factor: number) => void;
   imageScale: number;
 };
-
-const FONT_OPTIONS = [
-  { label: 'Impact', value: 'Impact, sans-serif' },
-  { label: 'Arial Black', value: '"Arial Black", sans-serif' },
-  { label: 'Comic Sans', value: '"Comic Sans MS", cursive' },
-  { label: 'System', value: 'system-ui, sans-serif' },
-];
 
 export function Toolbar({
   onAddText,
@@ -72,10 +66,9 @@ export function Toolbar({
           Clear Texts
         </Button>
         <Button onClick={onCopy} variant="default" className="min-w-[11rem]">
-          {copyStatus === 'copying' ? 'Copying…' : 'Copy to Clipboard'}
+          {copyStatus === 'copying' ? '..…' : 'Copy to Clipboard'}
         </Button>
       </div>
-
       <div className="flex flex-wrap items-center gap-4 text-sm">
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Font</span>
@@ -95,7 +88,6 @@ export function Toolbar({
             </SelectContent>
           </Select>
         </label>
-
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Size</span>
           <Input
@@ -109,7 +101,6 @@ export function Toolbar({
             className="w-16"
           />
         </label>
-
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Text</span>
           <input
@@ -119,7 +110,6 @@ export function Toolbar({
             className="h-8 w-8 cursor-pointer rounded border border-border"
           />
         </label>
-
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Stroke</span>
           <input
@@ -129,7 +119,6 @@ export function Toolbar({
             className="h-8 w-8 cursor-pointer rounded border border-border"
           />
         </label>
-
         <label className="flex items-center gap-2">
           <span className="text-muted-foreground">Stroke W</span>
           <Input
@@ -144,7 +133,6 @@ export function Toolbar({
           />
         </label>
       </div>
-
       <form onSubmit={handleUrlSubmit} className="flex gap-2">
         <Input
           type="text"
@@ -159,6 +147,7 @@ export function Toolbar({
           type="button"
           variant="outline"
           size="icon"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onScaleImage(1 / 1.1)}
           disabled={imageScale <= 0.5}
         >
@@ -168,13 +157,13 @@ export function Toolbar({
           type="button"
           variant="outline"
           size="icon"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onScaleImage(1.1)}
           disabled={imageScale >= 2}
         >
           +
         </Button>
       </form>
-
       <div className="w-full max-w-3xl px-10">
         <Carousel opts={{ align: 'start', dragFree: true }}>
           <CarouselContent>
